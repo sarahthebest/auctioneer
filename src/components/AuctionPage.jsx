@@ -13,7 +13,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import BidBtn from "./BidBtn";
 import TextField from "@mui/material/TextField";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const AuctionPage = () => {
   const location = useLocation();
@@ -25,23 +25,32 @@ const AuctionPage = () => {
 
   return (
     <Box sx={{
-      py: 2, bgcolor: "", border:1
+      py: 4, bgcolor: "", border:1
     }} height={'60vh'} >
       <Container
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           height: 100,
           width: "100%",
           p: 0,
         }}
       >
+        <Link
+          style={{
+            alignItems: "center",
+            marginBottom: 15,
+            fontSize:16,
+          }}
+          to="/auktioner"
+        >
+          Tillbaka till auktioner
+        </Link>
         <Box
           width="100%"
           display="flex"
           flexDirection="Column"
           alignItems="start"
-          p={2}
         >
           <Typography variant="h2" sx={{ fontSize: 24 }}>{AuctionTitle}</Typography>
           <Typography>{AuctionDesc}</Typography>
