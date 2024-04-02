@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import AuctionCard from "./AuctionCard";
+import {  Box, Grid } from "@mui/material";
 
 const Auctions = () => {
   const [auctions, setAuctions] = useState([]);
@@ -17,21 +19,21 @@ const Auctions = () => {
   }, []);
 
   return (
-    <div>
-      <div className="h-full flex items-center justify-center"></div>
-      <div className="h-full">
-        <h1 className="font-semibold text-4xl px-8 mt-14"></h1>
-        <ul className="w-full px-8 flex flex-col mt-10 sm:flex-wrap sm:flex-row item-center gap-14">
-          {auctions.map((auction) => (
-            <li key={auction.AuctionID}>
-              <h2 className="font-semibold text-2xl">{auction.Title}</h2>
-              <p>{auction.Description}</p>
-              <p>Pris: {auction.StartingPrice}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <Box sx={{p :2}}>
+    <Grid container spacing={1} gap={2} className="auctions" sx={{width:'100%'}}>
+    {auctions.map((auction) => (
+       <Grid item>
+         <AuctionCard
+           key={auction.AuctionID}
+           AuctionId={auction.AuctionID}
+           AuctionTitle={auction.Title}
+           AuctionDesc={auction.Description}
+           AuctionBid={auction.StartingPrice}
+         />
+     </Grid>
+    ))}
+  </Grid>
+  </Box>
   );
 };
 
