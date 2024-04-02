@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 
 const Auctions = () => {
   const [auctions, setAuctions] = useState([]);
@@ -27,6 +29,10 @@ const Auctions = () => {
               <h2 className="font-semibold text-2xl">{auction.Title}</h2>
               <p>{auction.Description}</p>
               <p>Pris: {auction.StartingPrice}</p>
+              <p>StartDate: {auction.StartDate}</p>
+              <p>EndDate: {auction.EndDate}</p>
+
+
             </li>
           ))}
         </ul>

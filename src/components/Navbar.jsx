@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography, Button, InputBase, IconButton } from '@mui
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import '../styling/Navbar.css';
+import Auctions from './Auctions';
 
 function Navbar() {
   return (
