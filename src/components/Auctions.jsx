@@ -13,7 +13,7 @@ const Auctions = () => {
       setAuctions(data);
     };
 
-    fetchAuctions();
+    fetchAuctions()
   }, []);
 
   return (
