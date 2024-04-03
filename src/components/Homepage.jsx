@@ -1,4 +1,4 @@
-import Picture6 from './assets/Picture6.jpg'
+import Picture6 from '../assets/Picture6.jpg'
 
 function Homepage() {
    
