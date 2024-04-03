@@ -7,7 +7,7 @@ import Auctions from './components/Auctions';
 import AuctionPage from './components/AuctionPage';
 import Homepage from './Homepage'
 import './styling/index.css'
-import Footer from './Footer'
+
 
 import CreateAuctionForm from './components/CreateAuctionForm'; // Importera din CreateAuctionForm-komponent
 
@@ -17,8 +17,9 @@ function App() {
     <Router>
       <>
     
-        <Homepage/>
+       
         <Navbar />
+        <Homepage/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auktioner" element={<Auctions />} />
