@@ -13,10 +13,12 @@ const Auctions = () => {
 
       const data = await response.json();
       setAuctions(data);
+      console.log(data);
     };
 
     fetchAuctions();
   }, []);
+
 
   return (
     <Box sx={{ p: 2, minHeight:680 }}>
@@ -35,6 +37,7 @@ const Auctions = () => {
               AuctionTitle={auction.Title}
               AuctionDesc={auction.Description}
               AuctionBid={auction.StartingPrice}
+              EndDate={auction.EndDate}
             />
           </Grid>
         ))}

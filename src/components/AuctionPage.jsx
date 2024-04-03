@@ -21,11 +21,13 @@ const AuctionPage = () => {
   const AuctionTitle = location.state?.AuctionTitle;
   const AuctionBid = location.state?.AuctionBid;
   const AuctionDesc = location.state?.AuctionDesc;
+  const EndDate = location.state?.EndDate;
 
+console.log(EndDate);
 
   return (
     <Box sx={{
-      py: 4, bgcolor: "", border:1, minHeight:680
+      py: 4, bgcolor: "", minHeight:680
     }} >
       <Container
         sx={{
@@ -111,7 +113,7 @@ const AuctionPage = () => {
 
 
         </Stack>
-            <Stack direction="row" sx={{ bgcolor: "lightGrey", height: 80, pt: 2, borderRadius: 2, width:300 }}>
+            <Stack direction="row" sx={{ bgcolor: "lightGrey", height: 80, pt: 2, borderRadius: 2, width:400 }}>
               <Container sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography>Högsta Bud:</Typography>
                 <div className="bid-info">
@@ -121,7 +123,7 @@ const AuctionPage = () => {
               <Container sx={{ display: "flex", flexDirection: "column", }}>
                 <Typography>Avslutas om:</Typography>
                 <div className="bid-time">
-                  <span className="bid-countdown">10 Days</span>
+                  <span className="bid-countdown">{EndDate}</span>
                 </div>
               </Container>
             </Stack>
