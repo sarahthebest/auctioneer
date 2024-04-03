@@ -10,7 +10,7 @@ const AuctionCard = ({
   EndDate,
 }) => {
   return (
-    <Box sx={{ width: 220, height: "fit-content", position: "relative" }}>
+    <Box sx={{ width: 240, height: "fit-content", position: "relative" }}>
       <Link
         to="/AuctionPage"
         state={{
@@ -39,7 +39,7 @@ const AuctionCard = ({
                     variant="h5"
                     component="div"
                   >
-                    {AuctionBid}
+                    {`${AuctionBid} kr`}
                   </Typography>
                   <Typography color="text.secondary">{AuctionDesc}</Typography>
                 </Grid>
@@ -49,7 +49,7 @@ const AuctionCard = ({
                     color="text.secondary"
                     sx={{ position: "absolute", bottom: 0, pb: 2 }}
                   >
-                    {EndDate}{" "}
+                    {EndDate}
                   </Typography>
                 </Grid>
               </Grid>

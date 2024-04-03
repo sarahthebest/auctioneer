@@ -3,7 +3,14 @@ import {
   Container,
   Stack,
   Typography,
+  Table,
+  TableBody,
+  TableCell,
+  Paper,
 } from "@mui/material";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 import BidBtn from "./BidBtn";
 import TextField from "@mui/material/TextField";
 import { useLocation, Link } from "react-router-dom";
@@ -67,7 +74,31 @@ const AuctionPage = () => {
           width: "100%",
         }}
       >
-        <Container sx={{bgcolor:'blue'}}></Container>
+        <Stack direction="column" gap={2}>
+          <Box height={200} sx={{ bgcolor: "blue" }}></Box>
+          <TableContainer
+            component={Paper}
+            sx={{ width: 500, height: "fit-content", border: 1 }}
+          >
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Bud</TableCell>
+                  <TableCell align="right"></TableCell>
+                  <TableCell align="right"></TableCell>
+                  <TableCell align="right"></TableCell>
+                  <TableCell align="right"></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell align="left"> {`${AuctionBid} kr`} </TableCell>
+                  <TableCell align="right">Tid</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Stack>
         <Container>
           <Stack
             direction="row"
@@ -86,7 +117,7 @@ const AuctionPage = () => {
                   className="highest-bid"
                   style={{ fontSize: 20, color: "green" }}
                 >
-                  {AuctionBid}
+                  {`${AuctionBid} kr`}{" "}
                 </span>
               </div>
             </Container>
@@ -97,7 +128,7 @@ const AuctionPage = () => {
               </div>
             </Container>
           </Stack>
-          <Stack direction="column" gap={2} sx={{mt:2}}>
+          <Stack direction="column" gap={2} sx={{ mt: 2 }}>
             <Box
               component="form"
               display="flex"
