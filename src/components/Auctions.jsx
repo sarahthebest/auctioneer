@@ -19,7 +19,7 @@ const Auctions = () => {
   }, []);
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: 2, minHeight:680 }}>
       <Grid
         container
         spacing={1}
