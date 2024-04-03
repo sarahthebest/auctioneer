@@ -25,8 +25,8 @@ const AuctionPage = () => {
 
   return (
     <Box sx={{
-      py: 4, bgcolor: "", border:1
-    }} height={'60vh'} >
+      py: 4, bgcolor: "", border:1, minHeight:680
+    }} >
       <Container
         sx={{
           display: "flex",
