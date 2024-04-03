@@ -3,14 +3,7 @@ import {
   Container,
   Stack,
   Typography,
-  Table,
-  TableBody,
-  TableCell,
-  Paper
 } from "@mui/material";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import BidBtn from "./BidBtn";
 import TextField from "@mui/material/TextField";
 import { useLocation, Link } from "react-router-dom";
@@ -23,12 +16,16 @@ const AuctionPage = () => {
   const AuctionDesc = location.state?.AuctionDesc;
   const EndDate = location.state?.EndDate;
 
-console.log(EndDate);
+  console.log(EndDate);
 
   return (
-    <Box sx={{
-      py: 4, bgcolor: "", minHeight:680
-    }} >
+    <Box
+      sx={{
+        py: 4,
+        bgcolor: "",
+        minHeight: 680,
+      }}
+    >
       <Container
         sx={{
           display: "flex",
@@ -42,7 +39,7 @@ console.log(EndDate);
           style={{
             alignItems: "center",
             marginBottom: 15,
-            fontSize:16,
+            fontSize: 16,
           }}
           to="/auktioner"
         >
@@ -54,9 +51,10 @@ console.log(EndDate);
           flexDirection="Column"
           alignItems="start"
         >
-          <Typography variant="h2" sx={{ fontSize: 24 }}>{AuctionTitle}</Typography>
-          <Typography>{AuctionDesc}</Typography>
-
+          <Typography variant="h2" sx={{ fontSize: 24 }}>
+            {AuctionTitle}
+          </Typography>
+          <Typography sx={{ pt: 1 }}>{AuctionDesc}</Typography>
         </Box>
       </Container>
       <Container
@@ -69,64 +67,57 @@ console.log(EndDate);
           width: "100%",
         }}
       >
-        <Stack direction='column' gap={2}>
-          <TableContainer component={Paper} sx={{ width: 600, height: 'fit-content', border:1 }}>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Bud</TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell align="left">Bud</TableCell>
-                  <TableCell align="right">Tid</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Stack direction='row' gap={2} alignItems='center'>
-
-          <Box
-            component="form"
-            display="flex"
-            flexDirection="column"
+        <Container sx={{bgcolor:'blue'}}></Container>
+        <Container>
+          <Stack
+            direction="row"
             sx={{
-              gap: 1,
-              width: 400
+              bgcolor: "lightGrey",
+              height: 80,
+              pt: 2,
+              borderRadius: 2,
+              width: 410,
             }}
-            noValidate
-            autoComplete="off"
           >
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-            />
-          </Box>
+            <Container sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography>Högsta Bud:</Typography>
+              <div className="bid-info">
+                <span
+                  className="highest-bid"
+                  style={{ fontSize: 20, color: "green" }}
+                >
+                  {AuctionBid}
+                </span>
+              </div>
+            </Container>
+            <Container sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography>Avslutas om:</Typography>
+              <div className="bid-time">
+                <span className="bid-countdown">{EndDate}</span>
+              </div>
+            </Container>
+          </Stack>
+          <Stack direction="column" gap={2} sx={{mt:2}}>
+            <Box
+              component="form"
+              display="flex"
+              flexDirection="column"
+              sx={{
+                gap: 1,
+                width: 410,
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField
+                id="outlined-basic"
+                label="Outlined"
+                variant="outlined"
+              />
+            </Box>
             <BidBtn />
-            </Stack>
-
-
-        </Stack>
-            <Stack direction="row" sx={{ bgcolor: "lightGrey", height: 80, pt: 2, borderRadius: 2, width:400 }}>
-              <Container sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography>Högsta Bud:</Typography>
-                <div className="bid-info">
-                  <span className="highest-bid">{AuctionBid}</span>
-                </div>
-              </Container>
-              <Container sx={{ display: "flex", flexDirection: "column", }}>
-                <Typography>Avslutas om:</Typography>
-                <div className="bid-time">
-                  <span className="bid-countdown">{EndDate}</span>
-                </div>
-              </Container>
-            </Stack>
+          </Stack>
+        </Container>
       </Container>
     </Box>
   );
