@@ -10,7 +10,7 @@ function Navbar() {
     <AppBar position="sticky">
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
-          <h6 className='shadows-into'>Min Auktionsplats</h6>
+          Min Auktionsplats
         </Typography>
         <Button color="inherit" component={Link} to="/">
           Hem
