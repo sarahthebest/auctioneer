@@ -9,13 +9,16 @@ function Navbar() {
     <AppBar position="sticky">
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
-          Min Auktionsplats
+          <h6 className='shadows-into'>Min Auktionsplats</h6>
         </Typography>
         <Button color="inherit" component={Link} to="/">
           Hem
         </Button>
         <Button color="inherit" component={Link} to="/auktioner">
           Auktioner
+        </Button>
+        <Button color='inherit' component={Link} to="/skapa-auktion">
+          Skapa Auktion
         </Button>
         <div className="search">
           <InputBase
