@@ -5,6 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import '../styling/Navbar.css';
 import Auctions from './Auctions';
 
+
 function Navbar() {
   return (
     <AppBar position="sticky">

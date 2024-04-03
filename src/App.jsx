@@ -5,7 +5,7 @@ import Home from './components/Home';
 import Footer from './components/Footer';
 import Auctions from './components/Auctions';
 import AuctionPage from './components/AuctionPage';
-import Homepage from '.components/Homepage'
+import Homepage from './components/Homepage';
 import './styling/index.css'
 
 
