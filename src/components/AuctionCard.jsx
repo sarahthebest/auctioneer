@@ -9,6 +9,9 @@ const AuctionCard = ({
   AuctionBid,
   EndDate,
 }) => {
+
+  const date = new Date (EndDate)
+
   return (
     <Box sx={{ width: 240, height: "fit-content", position: "relative" }}>
       <Link
@@ -49,6 +52,16 @@ const AuctionCard = ({
                     color="text.secondary"
                     sx={{ position: "absolute", bottom: 0, pb: 2 }}
                   >
+                  {
+                   
+                   (date.getFullYear()) +  "-" +
+                   (date.getMonth() + 1 < 10 ? "0" +(date.getMonth() + 1) : date.getMonth() + 1) +"-" + 
+                   (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + "-" +
+                   (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":" +
+                   (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) + ":" +
+                   (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds())
+                    
+                    }
                     {EndDate}
                   </Typography>
                 </Grid>
