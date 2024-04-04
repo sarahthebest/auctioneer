@@ -73,10 +73,7 @@ const AuctionPage = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Bud</TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
+                  <TableCell align="right">Tid</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
