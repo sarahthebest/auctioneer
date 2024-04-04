@@ -1,32 +1,53 @@
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
   Stack,
   Typography,
-  Table,
-  TableBody,
-  TableCell,
-  Paper
+  Paper,
+  TextField
 } from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import BidBtn from "./BidBtn";
-import TextField from "@mui/material/TextField";
 import { useLocation, Link } from "react-router-dom";
 
 const AuctionPage = () => {
   const location = useLocation();
-  const AuctionId = location.state?.AuctionId;
-  const AuctionTitle = location.state?.AuctionTitle;
-  const AuctionBid = location.state?.AuctionBid;
-  const AuctionDesc = location.state?.AuctionDesc;
+  
+  const { AuctionId, AuctionTitle, AuctionBid, AuctionDesc, EndDate, isAuctionActive } = location.state || {};
 
+  // för att lagra återstående tid i nedräknaren
+  const [timeLeft, setTimeLeft] = useState('');
+
+
+  useEffect(() => {
+    // Funktion för att uppdatera nedräknaren
+    const updateCountdown = () => {
+      const endTime = new Date(EndDate);
+      const currentTime = new Date();
+      const difference = endTime - currentTime;
+
+      if (difference <= 0) {
+        // Om tiden har gått ut, visa meddelande och rensa intervallet
+        clearInterval(timer);
+        setTimeLeft('Auktionen är över');
+      } else {
+        // Annars, beräkna timmar, minuter och sekunder kvar
+        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
+        const minutes = Math.floor((difference / (1000 * 60)) % 60).toString().padStart(2, '0');
+        const seconds = Math.floor((difference / 1000) % 60).toString().padStart(2, '0');
+        setTimeLeft(`${hours}:${minutes}:${seconds}`);
+      }
+    };
+
+    // Startar intervallet 
+    const timer = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(timer);
+  }, [EndDate]);
 
   return (
-    <Box sx={{
-      py: 4, bgcolor: "", border:1
-    }} height={'60vh'} >
+    <Box sx={{ py: 4, bgcolor: "", minHeight: 680 }}>
       <Container
         sx={{
           display: "flex",
@@ -36,16 +57,18 @@ const AuctionPage = () => {
           p: 0,
         }}
       >
+        {/* Länk tillbaka till auktionslistan */}
         <Link
           style={{
             alignItems: "center",
             marginBottom: 15,
-            fontSize:16,
+            fontSize: 16,
           }}
           to="/auktioner"
         >
           Tillbaka till auktioner
         </Link>
+        {/* Auktionsinformation */}
         <Box
           width="100%"
           display="flex"
@@ -54,7 +77,6 @@ const AuctionPage = () => {
         >
           <Typography variant="h2" sx={{ fontSize: 24 }}>{AuctionTitle}</Typography>
           <Typography>{AuctionDesc}</Typography>
-
         </Box>
       </Container>
       <Container
@@ -67,67 +89,47 @@ const AuctionPage = () => {
           width: "100%",
         }}
       >
+        {/* Budformulär och nedräknare */}
         <Stack direction='column' gap={2}>
-          <TableContainer component={Paper} sx={{ width: 600, height: 'fit-content', border:1 }}>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Bud</TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell align="left">Bud</TableCell>
-                  <TableCell align="right">Tid</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+          <TableContainer component={Paper} sx={{ width: 600, height: 'fit-content', border: 1 }}>
+            {/* Dina TableRows och TableCells för att visa buden skulle gå här */}
           </TableContainer>
-          <Stack direction='row' gap={2} alignItems='center'>
-
-          <Box
-            component="form"
-            display="flex"
-            flexDirection="column"
-            sx={{
-              gap: 1,
-              width: 400
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-            />
-          </Box>
-            <BidBtn />
+          {isAuctionActive && (
+            // Visa formuläret för att lägga bud om auktionen är aktiv
+            <Stack direction='row' gap={2} alignItems='center'>
+              <TextField
+                id="outlined-basic"
+                label="Bud"
+                variant="outlined"
+                sx={{
+                  width: 400
+                }}
+              />
+              <BidBtn />
             </Stack>
-
-
+          )}
         </Stack>
-            <Stack direction="row" sx={{ bgcolor: "lightGrey", height: 80, pt: 2, borderRadius: 2, width:300 }}>
-              <Container sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography>Högsta Bud:</Typography>
-                <div className="bid-info">
-                  <span className="highest-bid">{AuctionBid}</span>
-                </div>
-              </Container>
-              <Container sx={{ display: "flex", flexDirection: "column", }}>
-                <Typography>Avslutas om:</Typography>
-                <div className="bid-time">
-                  <span className="bid-countdown">10 Days</span>
-                </div>
-              </Container>
-            </Stack>
+        {/* Information om högsta bud och nedräkningstid */}
+        <Stack direction="row" sx={{ bgcolor: "lightGrey", height: 80, pt: 2, borderRadius: 2, width: 400 }}>
+          <Container sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography>Högsta Bud:</Typography>
+            <div className="bid-info">
+              <span className="highest-bid">{AuctionBid}</span>
+            </div>
+          </Container>
+          <Container sx={{ display: "flex", flexDirection: "column", }}>
+            <Typography>Avslutas om:</Typography>
+            <div className="bid-time">
+              {/* Visa nedräknaren om auktionen är aktiv, annars meddelanda att auktionen är över */}
+              <span className="bid-countdown">{isAuctionActive ? timeLeft : 'Auktionen är över'}</span>
+            </div>
+          </Container>
+        </Stack>
       </Container>
     </Box>
   );
 };
 
 export default AuctionPage;
+
+
