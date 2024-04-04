@@ -7,13 +7,11 @@ import AuctionPage from './components/AuctionPage';
 import Homepage from './components/Homepage'
 import './styling/index.css'
 
-
-import CreateAuctionForm from './components/CreateAuctionForm'; // Importera din CreateAuctionForm-komponent
+import CreateAuctionForm from "./components/CreateAuctionForm"; // Importera din CreateAuctionForm-komponent
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   return (
-
     <Router>
       <>
     
@@ -23,7 +21,10 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/auktioner" element={<Auctions searchTerm={searchTerm} />} />
           <Route path="/auctionpage" element={<AuctionPage />} />
-          <Route path="/skapa-auktion" element={<CreateAuctionForm groupCode="p7u" />} />
+          <Route
+            path="/skapa-auktion"
+            element={<CreateAuctionForm groupCode="p7u" />}
+          />
         </Routes>
         <Footer />
       </>

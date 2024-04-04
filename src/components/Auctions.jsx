@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AuctionCard from "./AuctionCard";
-import {  Box, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 
 const Auctions = ({ searchTerm }) => {
   const [auctions, setAuctions] = useState([]);
@@ -13,9 +13,10 @@ const Auctions = ({ searchTerm }) => {
 
       const data = await response.json();
       setAuctions(data);
+      console.log(data);
     };
 
-    fetchAuctions()
+    fetchAuctions();
   }, []);
 
   const filtredAuctions = auctions.filter(auction =>
