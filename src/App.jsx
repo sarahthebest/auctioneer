@@ -6,7 +6,6 @@ import Footer from './components/Footer';
 import Auctions from './components/Auctions';
 
 import CreateAuctionForm from './components/CreateAuctionForm'; // Importera din CreateAuctionForm-komponent
-
 function App() {
   return (
     <Router>
