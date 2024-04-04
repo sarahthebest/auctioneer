@@ -13,9 +13,10 @@ function Navbar({ setSearchTerm }) {
   return (
     <AppBar position="sticky">
       <Toolbar>
-      <Typography variant="h6" style={{ flexGrow: 1 }} className='shadows-into'>
-          Min Auktionsplats
-        </Typography>
+      <Typography variant="h6" style={{ flexGrow: 1, fontFamily: "'Shadows Into Light', cursive" }}>
+       Min Auktionsplats
+      </Typography>
+
         <Button color="inherit" component={Link} to="/">
           Hem
         </Button>
