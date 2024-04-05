@@ -38,11 +38,11 @@ const AuctionCard = ({
                     {AuctionTitle}
                   </Typography>
                   <Typography
-                    sx={{ my: 2, color: "green" }}
+                    sx={{ my: 2, color: "green", fontSize:20 }}
                     variant="h5"
                     component="div"
                   >
-                    {AuctionBid}
+                    Startpris: {AuctionBid}
                   </Typography>
                   <Typography color="text.secondary">{AuctionDesc}</Typography>
                 </Grid>

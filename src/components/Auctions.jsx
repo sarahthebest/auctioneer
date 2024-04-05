@@ -13,12 +13,12 @@ const Auctions = () => {
 
       const data = await response.json();
       setAuctions(data);
+      console.log(data);
     };
 
     fetchAuctions();
   }, []);
 
-  // Funktion för att lägga till en ny auktion i listan
   const addAuction = (newAuction) => {
     setAuctions((prevAuctions) => [...prevAuctions, newAuction]);
   };
