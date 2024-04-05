@@ -21,11 +21,13 @@ function App() {
         <Navbar />
         <Homepage/>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Homepage />} />
           <Route path="/auktioner" element={<Auctions />} />
           <Route path="/auctionpage" element={<AuctionPage />} />
           <Route path="/skapa-auktion" element={<CreateAuctionForm groupCode="p7u" />} />
         </Routes>
+        <Footer />
+      </>
         <Footer />
       </>
     </Router>

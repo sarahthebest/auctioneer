@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AuctionCard from "./AuctionCard";
 import { Box, Grid } from "@mui/material";
+import AuctionCard from "./AuctionCard";
+import { Box, Grid } from "@mui/material";
 
 const Auctions = () => {
   const [auctions, setAuctions] = useState([]);
@@ -16,6 +18,7 @@ const Auctions = () => {
       console.log(data);
     };
 
+    fetchAuctions();
     fetchAuctions();
   }, []);
 

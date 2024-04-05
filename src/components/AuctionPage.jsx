@@ -53,6 +53,8 @@ const AuctionPage = () => {
           display: "flex",
           flexDirection: "column",
           height: 100,
+          flexDirection: "column",
+          height: 100,
           width: "100%",
           p: 0,
         }}
@@ -126,6 +128,7 @@ const AuctionPage = () => {
           </Container>
         </Stack>
       </Container>
+    </Box>
     </Box>
   );
 };

@@ -1,4 +1,5 @@
 import { Box, Typography, Container, Stack } from "@mui/material";
+import { Box, Typography, Container, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -9,6 +10,8 @@ const Footer = () => {
         <Stack gap={3} direction={'row'} sx={{paddingRight:5, pt:2}}>
         <Link to="/">Test Link</Link>
         <Link to="/auktioner">Auktioner</Link>
+
+        </Stack>
 
         </Stack>
       </Container>
