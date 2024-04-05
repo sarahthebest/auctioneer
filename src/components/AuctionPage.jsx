@@ -14,6 +14,7 @@ import TableRow from "@mui/material/TableRow";
 import BidBtn from "./BidBtn";
 import TextField from "@mui/material/TextField";
 import { useLocation, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const AuctionPage = () => {
   const location = useLocation();
@@ -23,7 +24,20 @@ const AuctionPage = () => {
   const AuctionDesc = location.state?.AuctionDesc;
   const EndDate = location.state?.EndDate;
 
-  console.log(EndDate);
+  const [bids, setBids] = useState([AuctionBid]);
+
+  useEffect(() => {
+    const fetchBids = async () => {
+      const response = await fetch(
+        "https://auctioneer.azurewebsites.net/bid/p7u/" + AuctionId
+      );
+      const data = await response.json();
+      setBids(data);
+      console.log(data);
+    };
+
+    fetchBids();
+  }, []);
 
   return (
     <Box
@@ -78,21 +92,23 @@ const AuctionPage = () => {
           <Box height={200} sx={{ bgcolor: "blue" }}></Box>
           <TableContainer
             component={Paper}
-            sx={{ width: 500, height: "fit-content", border: 1 }}
+            sx={{ width: 500, height: "fit-content" }}
           >
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>Bud</TableCell>
-                  <TableCell align="right">Tid</TableCell>
+                  <TableCell align="right">Namn</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell align="left"> {`${AuctionBid} kr`} </TableCell>
-                  <TableCell align="right">Tid</TableCell>
-                </TableRow>
-              </TableBody>
+              {bids && bids.map((bid) => (
+                <TableBody>
+                  <TableRow>
+                    <TableCell align="left"> {bid.Amount} kr </TableCell>
+                    <TableCell align="right">{bid.Bidder}</TableCell>
+                  </TableRow>
+                </TableBody>
+              ))}
             </Table>
           </TableContainer>
         </Stack>
