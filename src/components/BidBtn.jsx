@@ -5,7 +5,7 @@ export default function BidBtn({ AuctionId, Amount, Bidder, auctionBid, setAucti
 const [submittedAmount, setSubmittedAmount] = useState(null);
 
   const postBid = async (AuctionId, Amount, Bidder) => {
-    const response = await fetch("https://auctioneer.azurewebsites.net/bid/p7u/", {
+    const response = await fetch("https://auctioneer2.azurewebsites.net/bid/p7u/", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

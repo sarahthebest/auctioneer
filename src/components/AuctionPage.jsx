@@ -32,7 +32,7 @@ const AuctionPage = () => {
   useEffect(() => {
     const fetchBids = async () => {
       const response = await fetch(
-        "https://auctioneer.azurewebsites.net/bid/p7u/" + AuctionId
+        "https://auctioneer2.azurewebsites.net/bid/p7u/" + AuctionId
       );
       const data = await response.json();
       setBids(data);

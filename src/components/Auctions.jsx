@@ -8,7 +8,7 @@ const Auctions = () => {
   useEffect(() => {
     const fetchAuctions = async () => {
       const response = await fetch(
-        "https://auctioneer.azurewebsites.net/auction/p7u"
+        "https://auctioneer2.azurewebsites.net/auction/p7u"
       );
 
       const data = await response.json();
