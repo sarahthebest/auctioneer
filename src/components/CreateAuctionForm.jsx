@@ -82,17 +82,6 @@ const CreateAuctionForm = ({ addAuction }) => {
 const ParentComponent = () => {
   const [auctions, setAuctions] = useState([]);
 
-  useEffect(() => {
-    const fetchAuctions = async () => {
-      const response = await fetch(
-        "https://auctioneer.azurewebsites.net/auction/p7u"
-      );
-      const data = await response.json();
-      setAuctions(data);
-    };
-
-    fetchAuctions();
-  }, []);
 
   const addAuction = (newAuction) => {
     setAuctions(prevAuctions => [...prevAuctions, newAuction]);
@@ -118,22 +107,6 @@ const ParentComponent = () => {
     <div>
       <h1>Skapa en ny auktion</h1>
       <CreateAuctionForm addAuction={addAuction} />
-      
-      <ul>
-        {auctions.map((auction, index) => (
-          <li key={index}>
-            <h2>{auction.Title}</h2>
-            <p>{auction.Description}</p>
-            <Button 
-              color="secondary" 
-              variant="contained" 
-              onClick={() => deleteAuction(auction)}
-            >
-              Delete
-            </Button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
