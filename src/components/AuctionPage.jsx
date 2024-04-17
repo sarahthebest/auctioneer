@@ -24,6 +24,7 @@ const AuctionPage = () => {
   const AuctionBid = location.state?.AuctionBid;
   const AuctionDesc = location.state?.AuctionDesc;
   const EndDate = location.state?.EndDate;
+  const [createdBy, setCreatedBy] = useState('')
 
   const [bids, setBids] = useState([AuctionBid]);
   const [auctionBid, setAuctionBid] = useState(AuctionBid);
@@ -104,6 +105,7 @@ const AuctionPage = () => {
           flexDirection="Column"
           alignItems="start"
         >
+          <Typography sx= {{fontSize: 10}}>Skapad av: {createdBy}</Typography>
           <Typography variant="h2" sx={{ fontSize: 24 }}>
             {AuctionTitle}
           </Typography>
