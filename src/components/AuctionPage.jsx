@@ -12,12 +12,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import BidBtn from "./BidBtn";
-import TextField from "@mui/material/TextField";
-import { useLocation, Link } from "react-router-dom";
+import { TextField, Button } from "@mui/material";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const AuctionPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const AuctionId = location.state?.AuctionId;
   const AuctionTitle = location.state?.AuctionTitle;
   const AuctionBid = location.state?.AuctionBid;
@@ -36,18 +37,38 @@ const AuctionPage = () => {
       );
       const data = await response.json();
       setBids(data);
-      setAuctionBid(data[data.length-1].Amount);
+      setAuctionBid(data[data.length - 1].Amount);
     };
 
     fetchBids();
   }, [auctionBid]);
 
   const handleAmountChange = (event) => {
-    setAmount(event.target.value); 
+    setAmount(event.target.value);
   };
 
   const handleNameChange = (event) => {
-    setName(event.target.value); 
+    setName(event.target.value);
+  };
+
+  const deleteAuction = async () => {
+    try {
+      const response = await fetch(`https://auctioneer2.azurewebsites.net/auction/p7u/${AuctionId}`, {
+        method: 'DELETE',
+        body: JSON.stringify({
+          GroupCode: 'p7u',
+          AuctionID: AuctionId
+        })
+      });
+      if (response.ok) {
+        alert('Auktion borttagen!')
+        navigate('/auktioner')
+      } else {
+        alert('Något gick fel, försök igen!')
+      }
+    } catch (error) {
+      console.error('Fel uppstod:', error);
+    }
   };
 
   return (
@@ -112,7 +133,7 @@ const AuctionPage = () => {
                 </TableRow>
               </TableHead>
               {bids && bids.map((bid) => (
-                <TableBody key={bid}>
+                <TableBody>
                   <TableRow>
                     <TableCell align="left"> {bid.Amount} kr </TableCell>
                     <TableCell align="right">{bid.Bidder}</TableCell>
@@ -178,7 +199,15 @@ const AuctionPage = () => {
                 onChange={handleNameChange}
               />
             </Box>
-            <BidBtn AuctionId={AuctionId} Amount={amount} Bidder={name} GroupCode='p7u' auctionBid={auctionBid} setAuctionBid={setAuctionBid}/>
+            <BidBtn AuctionId={AuctionId} Amount={amount} Bidder={name} GroupCode='p7u' auctionBid={auctionBid} setAuctionBid={setAuctionBid} />
+            <Button
+              style={{ width: '70%' }}
+              color="secondary"
+              variant="contained"
+              onClick={() => deleteAuction()}
+            >
+              Ta bort
+            </Button>
           </Stack>
         </Container>
       </Container>
@@ -187,4 +216,3 @@ const AuctionPage = () => {
 };
 
 export default AuctionPage;
-
