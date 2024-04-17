@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
-import moment from 'moment';
 
 const CreateAuctionForm = ({ addAuction }) => {
   const [auctionTitle, setAuctionTitle] = useState('');
