@@ -8,18 +8,23 @@ const Auctions = () => {
   useEffect(() => {
     const fetchAuctions = async () => {
       const response = await fetch(
-        "https://auctioneer.azurewebsites.net/auction/p7u"
+        "https://auctioneer2.azurewebsites.net/auction/p7u"
       );
 
       const data = await response.json();
       setAuctions(data);
+      console.log(data);
     };
 
     fetchAuctions();
   }, []);
 
+  const addAuction = (newAuction) => {
+    setAuctions((prevAuctions) => [...prevAuctions, newAuction]);
+  };
+
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: 2, minHeight: 680 }}>
       <Grid
         container
         spacing={1}
@@ -28,13 +33,13 @@ const Auctions = () => {
         sx={{ width: "100%" }}
       >
         {auctions.map((auction) => (
-          <Grid item>
+          <Grid item key={auction.AuctionID}>
             <AuctionCard
-              key={auction.AuctionID}
               AuctionId={auction.AuctionID}
               AuctionTitle={auction.Title}
               AuctionDesc={auction.Description}
               AuctionBid={auction.StartingPrice}
+              EndDate={auction.EndDate}
             />
           </Grid>
         ))}
