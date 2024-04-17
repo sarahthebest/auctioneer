@@ -112,7 +112,7 @@ const AuctionPage = () => {
                 </TableRow>
               </TableHead>
               {bids && bids.map((bid) => (
-                <TableBody>
+                <TableBody key={bid}>
                   <TableRow>
                     <TableCell align="left"> {bid.Amount} kr </TableCell>
                     <TableCell align="right">{bid.Bidder}</TableCell>
@@ -187,3 +187,4 @@ const AuctionPage = () => {
 };
 
 export default AuctionPage;
+
