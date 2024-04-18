@@ -40,6 +40,7 @@ const Auctions = () => {
               AuctionDesc={auction.Description}
               AuctionBid={auction.StartingPrice}
               EndDate={auction.EndDate}
+              CreatedBy= {auction.CreatedBy}
             />
           </Grid>
         ))}

@@ -107,7 +107,7 @@ const AuctionPage = () => {
           flexDirection="Column"
           alignItems="start"
         >
-          <Typography sx= {{fontSize: 10}}>Skapad av: {createdBy}</Typography>
+          <Typography sx= {{fontSize: 10}}>Skapad av: {location.state?.CreatedBy}</Typography>
           <Typography variant="h2" sx={{ fontSize: 24 }}>
             {AuctionTitle}
           </Typography>

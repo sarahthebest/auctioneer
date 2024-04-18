@@ -8,6 +8,7 @@ const AuctionCard = ({
   AuctionDesc,
   AuctionBid,
   EndDate,
+  CreatedBy,
 }) => {
 
   const date = new Date (EndDate)
@@ -22,6 +23,7 @@ const AuctionCard = ({
           AuctionDesc: AuctionDesc,
           AuctionBid: AuctionBid,
           EndDate: EndDate,
+          CreatedBy: CreatedBy,
         }}
       >
         <Paper elevation={1}>
