@@ -8,22 +8,10 @@ const AuctionCard = ({
   AuctionDesc,
   AuctionBid,
   EndDate,
+  CreatedBy,
 }) => {
-  // Datumformateraren som använder svenskt datumformat
-  const dateFormatter = new Intl.DateTimeFormat('sv-SE', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
 
-  // Formaterat datum
-  const formattedDate = dateFormatter.format(new Date(EndDate));
-
-  // Kontroll om auktionen är aktiv
-  const isAuctionActive = new Date(EndDate) > new Date();
+  const date = new Date (EndDate)
 
   return (
     <Box sx={{ width: 220, height: "fit-content", position: "relative" }}>
@@ -35,7 +23,7 @@ const AuctionCard = ({
           AuctionDesc: AuctionDesc,
           AuctionBid: AuctionBid,
           EndDate: EndDate,
-          isAuctionActive: isAuctionActive, // Skicka denna info till AuctionPage
+          CreatedBy: CreatedBy,
         }}
       >
         <Paper elevation={1}>
@@ -52,11 +40,11 @@ const AuctionCard = ({
                     {AuctionTitle}
                   </Typography>
                   <Typography
-                    sx={{ my: 2, color: "green" }}
+                    sx={{ my: 2, color: "green", fontSize:20 }}
                     variant="h5"
                     component="div"
                   >
-                    {AuctionBid}
+                    Startpris: {AuctionBid}
                   </Typography>
                   <Typography color="text.secondary">{AuctionDesc}</Typography>
                 </Grid>
@@ -66,17 +54,15 @@ const AuctionCard = ({
                     color="text.secondary"
                     sx={{ position: "absolute", bottom: 0, pb: 2 }}
                   >
-                    {formattedDate} {/* Använd det formaterade datumet här */}
+                  {
+                   (date.getFullYear()) +  "-" +
+                   (date.getMonth() + 1 < 10 ? "0" +(date.getMonth() + 1) : date.getMonth() + 1) +"-" + 
+                   (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " " + " " +
+                   (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":" +
+                   (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) + ":" +
+                   (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds())
+                    }
                   </Typography>
-                  {isAuctionActive ? null : (
-                    <Typography
-                      variant="caption"
-                      color="error"
-                      sx={{ position: "absolute", bottom: 0, pb: 2, right: 0 }}
-                    >
-                      Avslutad
-                    </Typography>
-                  )}
                 </Grid>
               </Grid>
             </CardContent>

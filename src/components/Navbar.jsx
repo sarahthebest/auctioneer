@@ -1,45 +1,55 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, InputBase, IconButton } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button, InputBase, IconButton, Box } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
-import CreateAuctionForm from './CreateAuctionForm'; 
+import CreateAuctionForm from './CreateAuctionForm';
 import '../styling/Navbar.css';
-import Auctions from './Auctions';
-
 
 function Navbar() {
-  const [visaCreateAuctionForm, setVisaCreateAuctionForm] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showCreateAuctionForm, setShowCreateAuctionForm] = useState(false);
+  const navigate = useNavigate();
 
-  const hanteraSkapaAuktionKlick = () => {
-    setVisaCreateAuctionForm(!visaCreateAuctionForm);
+  const handleSearch = (event) => {
+    event.preventDefault(); 
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchQuery)}`); 
+    }
+  };
+
+  const toggleCreateAuctionForm = () => {
+    setShowCreateAuctionForm(!showCreateAuctionForm);
   };
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" style={{ backgroundColor: '#d9c09e', color: '#333' }}>
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           Min Auktionsplats
         </Typography>
-        <Button color="inherit" component={Link} to="/">
+        <Button color="inherit" component={Link} to="/" sx={{ color: 'inherit' }}>
           Hem
         </Button>
-        <Button color="inherit" component={Link} to="/auktioner">
+        <Button color="inherit" component={Link} to="/auktioner" sx={{ color: 'inherit' }}>
           Auktioner
         </Button>
-        <Button color="inherit" onClick={hanteraSkapaAuktionKlick}>
+        <Button color="inherit" onClick={toggleCreateAuctionForm} sx={{ color: 'inherit' }}>
           Skapa Auktioner
         </Button>
-        <div className="search">
+        <Box component="form" onSubmit={handleSearch} sx={{ position: 'relative', marginLeft: '10px', backgroundColor: 'rgba(0, 0, 0, 0.1)', borderRadius: '4px' }}>
           <InputBase
+            sx={{ marginLeft: '8px', flex: 1 }}
             placeholder="Sök…"
             inputProps={{ 'aria-label': 'search' }}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <IconButton type="submit" aria-label="search">
+          <IconButton type="submit" sx={{ padding: '10px', color: 'inherit' }} aria-label="search">
             <SearchIcon />
           </IconButton>
-        </div>
+        </Box>
       </Toolbar>
-      {visaCreateAuctionForm && <CreateAuctionForm />} {/* Visa CreateAuctionForm-komponenten om visaCreateAuctionForm är sann */}
+      {showCreateAuctionForm && <CreateAuctionForm />}
     </AppBar>
   );
 }
