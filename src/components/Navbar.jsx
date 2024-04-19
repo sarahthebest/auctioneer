@@ -5,20 +5,17 @@ import SearchIcon from '@mui/icons-material/Search';
 import CreateAuctionForm from './CreateAuctionForm';
 import '../styling/Navbar.css';
 
-function Navbar() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showCreateAuctionForm, setShowCreateAuctionForm] = useState(false);
-  const navigate = useNavigate();
+function Navbar({ setSearchTerm }) {
+  const [input, setInput] = useState("");
+  const [visaCreateAuctionForm, setVisaCreateAuctionForm] = useState(false);
 
-  const handleSearch = (event) => {
-    event.preventDefault(); 
-    if (searchQuery.trim()) {
-      navigate(`/search?query=${encodeURIComponent(searchQuery)}`); 
-    }
+  const hanteraSkapaAuktionKlick = () => {
+    setVisaCreateAuctionForm(!visaCreateAuctionForm);
   };
 
-  const toggleCreateAuctionForm = () => {
-    setShowCreateAuctionForm(!showCreateAuctionForm);
+  const handleSearch = (event) => {
+    event.preventDefault();
+    setSearchTerm(input);
   };
 
   return (
@@ -33,25 +30,28 @@ function Navbar() {
         <Button color="inherit" component={Link} to="/auktioner" sx={{ color: 'inherit' }}>
           Auktioner
         </Button>
-        <Button color="inherit" onClick={toggleCreateAuctionForm} sx={{ color: 'inherit' }}>
+        <Button color="inherit" onClick={hanteraSkapaAuktionKlick} sx={{ color: 'inherit' }}>
           Skapa Auktioner
         </Button>
+     
         <Box component="form" onSubmit={handleSearch} sx={{ position: 'relative', marginLeft: '10px', backgroundColor: 'rgba(0, 0, 0, 0.1)', borderRadius: '4px' }}>
           <InputBase
             sx={{ marginLeft: '8px', flex: 1 }}
             placeholder="Sök…"
             inputProps={{ 'aria-label': 'search' }}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
           />
           <IconButton type="submit" sx={{ padding: '10px', color: 'inherit' }} aria-label="search">
             <SearchIcon />
           </IconButton>
         </Box>
+        {visaCreateAuctionForm && <CreateAuctionForm />}
       </Toolbar>
-      {showCreateAuctionForm && <CreateAuctionForm />}
     </AppBar>
   );
 }
 
 export default Navbar;
+
+

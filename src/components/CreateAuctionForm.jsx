@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { TextField, Button,Typography } from '@mui/material';
 
 const CreateAuctionForm = ({ addAuction }) => {

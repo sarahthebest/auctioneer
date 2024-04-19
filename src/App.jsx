@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer";
@@ -9,12 +9,14 @@ import "./styling/index.css";
 import CreateAuctionForm from "./components/CreateAuctionForm";
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <Router>
-      <Navbar />
+      <Navbar onSearch={setSearchTerm} />
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/auktioner" element={<Auctions />} />
+        <Route path="/auktioner" element={<Auctions searchTerm={searchTerm} />} />
         <Route path="/auctionpage" element={<AuctionPage />} />
         <Route
           path="/skapa-auktion"
@@ -27,3 +29,4 @@ function App() {
 }
 
 export default App;
+
