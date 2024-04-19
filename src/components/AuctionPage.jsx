@@ -20,7 +20,6 @@ import BidBtn from "./BidBtn";
 const AuctionPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const navigate = useNavigate();
   const AuctionId = location.state?.AuctionId;
   const AuctionTitle = location.state?.AuctionTitle;
   const AuctionBid = location.state?.AuctionBid;
@@ -135,16 +134,10 @@ const AuctionPage = () => {
             component={Paper}
             sx={{ width: 500, height: "fit-content" }}
           >
-        <Stack direction="column" gap={2}>
-          <TableContainer
-            component={Paper}
-            sx={{ width: 500, height: "fit-content" }}
-          >
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>Bud</TableCell>
-                  <TableCell align="right">Namn</TableCell>
                   <TableCell align="right">Namn</TableCell>
                 </TableRow>
               </TableHead>
