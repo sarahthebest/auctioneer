@@ -38,7 +38,7 @@ export default function BidBtn({
 
   return (
     <>
-      {submittedAmount && submittedAmount < auctionBid && (
+      {submittedAmount && submittedAmount <= auctionBid && (
         <div className="errMsg">Du budar för lågt!</div>
       )}
       <Button
