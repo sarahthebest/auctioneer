@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import TableContainer from '@mui/material/TableContainer';
 import {
   Box,
   Container,
-  Stack,
-  Typography,
+  TableContainer,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Paper,
+  Stack,
+  Typography,
   TextField,
   Button,
 } from "@mui/material";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import BidBtn from "./BidBtn";
 
 const AuctionPage = () => {
@@ -22,11 +22,11 @@ const AuctionPage = () => {
   const navigate = useNavigate();
   const AuctionId = location.state?.AuctionId;
   const AuctionTitle = location.state?.AuctionTitle;
-  const AuctionBid = location.state?.AuctionBid;
   const AuctionDesc = location.state?.AuctionDesc;
+  const AuctionBid = location.state?.AuctionBid;
   const EndDate = location.state?.EndDate;
-  const [createdBy, setCreatedBy] = useState('')
 
+  const [createdBy, setCreatedBy] = useState(location.state?.CreatedBy || "");
   const [bids, setBids] = useState([]);
   const [auctionBid, setAuctionBid] = useState(AuctionBid);
   const [amount, setAmount] = useState("");
@@ -40,6 +40,7 @@ const AuctionPage = () => {
       );
       const data = await response.json();
       setBids(data);
+
       if (data.length > 0) {
         setAuctionBid(data[data.length - 1].Amount);
       }
@@ -94,7 +95,7 @@ const AuctionPage = () => {
       );
 
       if (response.ok) {
-        alert("Auktion borttagen!");
+        alert("Auktionen borttagen!");
         navigate("/auktioner");
       } else {
         alert("Något gick fel, försök igen!");
@@ -119,6 +120,7 @@ const AuctionPage = () => {
         <Typography sx={{ pt: 1 }}>{AuctionDesc}</Typography>
         <Typography sx={{ pt: 1, color: "red" }}>{countdown}</Typography>
       </Container>
+
       <Container
         sx={{
           display: "flex",
@@ -134,7 +136,7 @@ const AuctionPage = () => {
             component={Paper}
             sx={{ width: 500, height: "fit-content" }}
           >
-            <Table aria-label="simple table">
+            <Table aria-label="Budhistorik">
               <TableHead>
                 <TableRow>
                   <TableCell>Bud</TableCell>
@@ -142,8 +144,8 @@ const AuctionPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {bids.map((bid) => (
-                  <TableRow key={bid.id}>
+                {bids.map((bid, index) => (
+                  <TableRow key={bid.id || index}>
                     <TableCell align="left">{bid.Amount} kr</TableCell>
                     <TableCell align="right">{bid.Bidder}</TableCell>
                   </TableRow>
@@ -152,6 +154,7 @@ const AuctionPage = () => {
             </Table>
           </TableContainer>
         </Stack>
+
         <Container>
           <Stack
             direction="row"
@@ -163,41 +166,30 @@ const AuctionPage = () => {
               width: 410,
             }}
           >
-            <Container sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography>Högsta Bud:</Typography>
-              <div className="bid-info">
-                <Typography variant="h5" component="h2" sx={{ color: "green" }}>
-                  {auctionBid} kr
-                </Typography>
-              </div>
+            <Container>
+              <Typography>Högsta bud:</Typography>
+              <Typography variant="h5" sx={{ color: "green" }}>
+                {auctionBid} kr
+              </Typography>
             </Container>
-            <Container sx={{ display: "flex", flexDirection: "column" }}>
+            <Container>
               <Typography>Avslutas om:</Typography>
-              <div className="bid-time">
-                <Typography variant="body2" component="p">
-                  {countdown}
-                </Typography>
-              </div>
+              <Typography variant="body2">{countdown}</Typography>
             </Container>
           </Stack>
+
           <Stack direction="column" gap={2} sx={{ mt: 2 }}>
             <Box
               component="form"
-              display="flex"
-              flexDirection="column"
-              sx={{ gap: 1, width: 410 }}
+              sx={{ display: "flex", flexDirection: "column", gap: 1 }}
             >
               <TextField
-                id="outlined-basic"
                 label="Bud"
-                variant="outlined"
                 value={amount}
                 onChange={handleAmountChange}
               />
               <TextField
-                id="outlined-basic"
                 label="Namn"
-                variant="outlined"
                 value={name}
                 onChange={handleNameChange}
               />
@@ -206,15 +198,14 @@ const AuctionPage = () => {
               AuctionId={AuctionId}
               Amount={amount}
               Bidder={name}
-              GroupCode="p7u"
               auctionBid={auctionBid}
               setAuctionBid={setAuctionBid}
             />
             <Button
-              style={{ width: "70%" }}
-              color="secondary"
               variant="contained"
-              onClick={() => deleteAuction()}
+              color="secondary"
+              sx={{ width: "70%" }}
+              onClick={deleteAuction}
             >
               Ta bort
             </Button>
@@ -226,4 +217,3 @@ const AuctionPage = () => {
 };
 
 export default AuctionPage;
-

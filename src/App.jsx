@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import Auctions from "./components/Auctions";
 import AuctionPage from "./components/AuctionPage";
 import Homepage from "./components/Homepage";
+import Search from "./components/Search"
 import "./styling/index.css";
 import CreateAuctionForm from "./components/CreateAuctionForm";
 
@@ -13,7 +14,7 @@ function App() {
 
   return (
     <Router>
-      <Navbar onSearch={setSearchTerm} />
+      <Navbar setSearchTerm={setSearchTerm} />
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/auktioner" element={<Auctions searchTerm={searchTerm} />} />
@@ -29,4 +30,3 @@ function App() {
 }
 
 export default App;
-

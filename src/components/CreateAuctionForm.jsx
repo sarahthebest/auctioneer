@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { TextField, Button,Typography } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 
 const CreateAuctionForm = ({ addAuction }) => {
   const [auctionTitle, setAuctionTitle] = useState('');
   const [auctionDescription, setAuctionDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [startingPrice, setStartingPrice] = useState('');
-  const [createdBy, setCreatedBy] = useState('')
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -18,8 +16,8 @@ const CreateAuctionForm = ({ addAuction }) => {
         StartDate: startDate,
         EndDate: endDate,
         GroupCode: 'p7u',
-        StartingPrice: startingPrice,
-        CreatedBy: createdBy,
+        StartingPrice: 500,
+        CreatedBy: 'Grupp 7'
       };
 
       await fetch('https://auctioneer2.azurewebsites.net/auction/p7u', {
@@ -36,9 +34,6 @@ const CreateAuctionForm = ({ addAuction }) => {
       setAuctionDescription('');
       setStartDate('');
       setEndDate('');
-      setStartingPrice ('')
-      setCreatedBy('')
-
     } catch (error) {
       console.error('Fel uppstod:', error);
     }
@@ -60,21 +55,6 @@ const CreateAuctionForm = ({ addAuction }) => {
         multiline
         rows={4}
       />
-<TextField
-        name="StartingPrice"
-        label="Startpris"
-        value={startingPrice}
-        onChange={(e) => setStartingPrice(e.target.value)}
-        />
-        <TextField
-          id="createdBy"
-          label="Skapad av"
-          variant="outlined"
-          value={createdBy}
-          onChange={(e) => setCreatedBy(e.target.value)}
-        />
-        <Typography>Skapad av: {createdBy}</Typography>
-
       <div label htmlFor="StartDate">
         Start Date
       </div>
