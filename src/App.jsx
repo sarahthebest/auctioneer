@@ -5,8 +5,8 @@ import Auctions from "./components/Auctions";
 import AuctionPage from "./components/AuctionPage";
 import Homepage from "./components/Homepage";
 import "./styling/index.css";
-
-import CreateAuctionForm from "./components/CreateAuctionForm"; // Importera din CreateAuctionForm-komponent
+import CreateAuctionForm from "./components/CreateAuctionForm"; 
+import SearchResults from "./components/SearchResults";
 
 function App() {
   return (
@@ -22,6 +22,8 @@ function App() {
             path="/skapa-auktion"
             element={<CreateAuctionForm groupCode="p7u" />}
           />
+          <Route path="/searchresults" element={<SearchResults />} />
+
         </Routes>
         <Footer />
       </>

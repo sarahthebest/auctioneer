@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SearchResults from "./SearchResults";
+import { useNavigate } from "react-router-dom";
 
 const URL = "https://auctioneer.up.railway.app/auction/p7u";
 
@@ -9,33 +10,36 @@ export default function Search({ onSearch }) {
   const [searchResult, setSearchResult] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate(); 
 
   const handleSearch = async () => {
     setNotFound(false);
     setIsLoading(true);
-
+  
     try {
       const response = await fetch(`${URL}?search=${encodeURIComponent(searchTerm)}`);
       if (!response.ok) {
         throw new Error("Network error");
       }
       const data = await response.json();
-      setSearchData(data); 
+      setSearchData(data);
       console.log(searchData);
+      navigate("/searchresults", { state: { searchResults: data } });
     } catch (error) {
       console.error("Failed to fetch auctions:", error);
       setNotFound(true);
-      setSearchData([]); 
+      setSearchData([]);
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   useEffect(() => {
     if (searchTerm) {
       handleSearch();
     } else {
-      setSearchData([]); 
+      setSearchData([]);
     }
   }, [searchTerm]);
 
