@@ -34,7 +34,7 @@ const AuctionPage = () => {
   useEffect(() => {
     const fetchBids = async () => {
       const response = await fetch(
-        "https://auctioneer2.azurewebsites.net/bid/p7u/" + AuctionId
+        "https://auctioneer.up.railway.app/bid/p7u/" + AuctionId
       );
       const data = await response.json();
       setBids(data);
@@ -54,7 +54,7 @@ const AuctionPage = () => {
 
   const deleteAuction = async () => {
     try {
-      const response = await fetch(`https://auctioneer2.azurewebsites.net/auction/p7u/${AuctionId}`, {
+      const response = await fetch(`https://auctioneer.up.railway.app/auction/p7u/${AuctionId}`, {
         method: 'DELETE',
         body: JSON.stringify({
           GroupCode: 'p7u',

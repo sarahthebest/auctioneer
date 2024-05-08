@@ -13,7 +13,7 @@ export default function BidBtn({
 
   const postBid = async (AuctionId, Amount, Bidder) => {
     const response = await fetch(
-      "https://auctioneer2.azurewebsites.net/bid/p7u/",
+      "https://auctioneer.up.railway.app/bid/p7u/",
       {
         method: "POST",
         headers: {

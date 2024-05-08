@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, InputBase, IconButton } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button} from '@mui/material';
 import { Link } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
 import CreateAuctionForm from './CreateAuctionForm'; 
 import '../styling/Navbar.css';
+import Search from './Search';
 
 function Navbar() {
   const [visaCreateAuctionForm, setVisaCreateAuctionForm] = useState(false);
 
   const hanteraSkapaAuktionKlick = () => {
     setVisaCreateAuctionForm(!visaCreateAuctionForm);
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
   };
 
   return (
@@ -27,17 +31,9 @@ function Navbar() {
         <Button color="inherit" onClick={hanteraSkapaAuktionKlick}>
           Skapa Auktioner
         </Button>
-        <div className="search">
-          <InputBase
-            placeholder="Sök…"
-            inputProps={{ 'aria-label': 'search' }}
-          />
-          <IconButton type="submit" aria-label="search">
-            <SearchIcon />
-          </IconButton>
-        </div>
+        <Search onSearch={handleSearch} />
       </Toolbar>
-      {visaCreateAuctionForm && <CreateAuctionForm />} {/* Visa CreateAuctionForm-komponenten om visaCreateAuctionForm är sann */}
+      {visaCreateAuctionForm && <CreateAuctionForm />}
     </AppBar>
   );
 }

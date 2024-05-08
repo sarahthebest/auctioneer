@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextField, Button,Typography } from '@mui/material';
+import { TextField, Button, Typography } from '@mui/material';
 
 const CreateAuctionForm = ({ addAuction }) => {
   const [auctionTitle, setAuctionTitle] = useState('');
@@ -22,7 +22,7 @@ const CreateAuctionForm = ({ addAuction }) => {
         CreatedBy: createdBy,
       };
 
-      await fetch('https://auctioneer2.azurewebsites.net/auction/p7u', {
+      const response = await fetch('https://auctioneer.up.railway.app/auction/p7u', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,22 +30,26 @@ const CreateAuctionForm = ({ addAuction }) => {
         body: JSON.stringify(newAuction)
       });
 
+      const APIres = await response.json();
+      console.log('API respons:', APIres);
+
       addAuction(newAuction);
 
       setAuctionTitle('');
       setAuctionDescription('');
       setStartDate('');
       setEndDate('');
-      setStartingPrice ('')
-      setCreatedBy('')
+      setStartingPrice('');
+      setCreatedBy('');
 
     } catch (error) {
       console.error('Fel uppstod:', error);
     }
   };
 
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form style={{ backgroundColor: 'white' }} onSubmit={handleSubmit}>
       <TextField
         name="Title"
         label="Titel"
@@ -60,20 +64,20 @@ const CreateAuctionForm = ({ addAuction }) => {
         multiline
         rows={4}
       />
-<TextField
+      <TextField
         name="StartingPrice"
         label="Startpris"
         value={startingPrice}
         onChange={(e) => setStartingPrice(e.target.value)}
-        />
-        <TextField
-          id="createdBy"
-          label="Skapad av"
-          variant="outlined"
-          value={createdBy}
-          onChange={(e) => setCreatedBy(e.target.value)}
-        />
-        <Typography>Skapad av: {createdBy}</Typography>
+      />
+      <TextField
+        id="createdBy"
+        label="Skapad av"
+        variant="outlined"
+        value={createdBy}
+        onChange={(e) => setCreatedBy(e.target.value)}
+      />
+      <Typography>Skapad av: {createdBy}</Typography>
 
       <div label htmlFor="StartDate">
         Start Date
@@ -81,16 +85,16 @@ const CreateAuctionForm = ({ addAuction }) => {
       <input
         type="datetime-local"
         value={startDate}
-        onChange={(e)=> setStartDate(e.target.value)}
+        onChange={(e) => setStartDate(e.target.value)}
       />
       <div label htmlFor="EndDate">
         End Date
       </div>
-      <input 
+      <input
         type="datetime-local"
         value={endDate}
-        onChange={(e)=> setEndDate(e.target.value)}
-      /> 
+        onChange={(e) => setEndDate(e.target.value)}
+      />
       <Button type="submit" color="primary" variant="contained">
         Skapa Auktion
       </Button>
@@ -106,21 +110,6 @@ const ParentComponent = () => {
     setAuctions(prevAuctions => [...prevAuctions, newAuction]);
   };
 
-  const deleteAuction = async (auction) => {
-    try {
-      await fetch(`https://auctioneer2.azurewebsites.net/auction/p7u/${auction.AuctionID}`, {
-        method: 'DELETE',
-        body: JSON.stringify({
-          GroupCode: 'p7u',
-          AuctionID: auction.AuctionID
-        })
-      });
-      const updatedAuctions = auctions.filter(auct => auct.AuctionID !== auction.AuctionID)
-      setAuctions(updatedAuctions);
-    } catch (error) {
-      console.error('Fel uppstod:', error);
-    }
-  };
 
   return (
     <div>
