@@ -71,7 +71,6 @@ export default function Search({ onSearch }) {
       <button onClick={handleSearch}>Search</button>
       {isLoading && <p>Loading...</p>}
       {notFound && <p>No auctions found for: {searchTerm}</p>}
-      {searchResult && <SearchResults result={searchResult} />}
     </div>
   );
 }
