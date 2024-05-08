@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import SearchResults from "./SearchResults";
 import { useNavigate } from "react-router-dom";
 
 const URL = "https://auctioneer.up.railway.app/auction/p7u";
