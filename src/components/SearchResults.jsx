@@ -4,7 +4,7 @@ export default function SearchResults({ results }) {
   return (
     <div>
       <h2>Search results</h2>
-      {results.map((result) => (
+      {results && results.map((result) => (
         <div key={result.AuctionID}>
           <p>Auction ID: {result.AuctionID}</p>
           <p>Title: {result.Title}</p>

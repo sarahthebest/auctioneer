@@ -1,38 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchResults from "./SearchResults";
 
 const URL = "https://auctioneer.up.railway.app/auction/p7u";
 
 export default function Search({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchData, setSearchData] = useState([]);
+  const [searchResult, setSearchResult] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = async () => {
     setNotFound(false);
     setIsLoading(true);
-    
+
     try {
       const response = await fetch(`${URL}?search=${encodeURIComponent(searchTerm)}`);
       if (!response.ok) {
-        throw new Error("Nätverk error");
+        throw new Error("Network error");
       }
       const data = await response.json();
-      if (data.length > 0) {
-        setSearchResults(data);
-      } else {
-        setNotFound(true);
-      }
+      setSearchData(data); 
+      console.log(searchData);
     } catch (error) {
-      console.error("Gick inte att hämta auktioner:", error);
+      console.error("Failed to fetch auctions:", error);
       setNotFound(true);
+      setSearchData([]); 
     } finally {
       setIsLoading(false);
     }
   };
 
+  useEffect(() => {
+    if (searchTerm) {
+      handleSearch();
+    } else {
+      setSearchData([]); 
+    }
+  }, [searchTerm]);
+
+  useEffect(() => {
+    const searchedItem = searchData.find(
+      (item) => item.Title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    if (searchedItem) {
+      setSearchResult(searchedItem);
+    } else {
+      setNotFound(true);
+      setSearchResult(null);
+    }
+  }, [searchData, searchTerm]);
+
   const handleSearchTerm = (e) => {
+    setNotFound(false);
     setSearchTerm(e.target.value);
   };
 
@@ -47,7 +67,7 @@ export default function Search({ onSearch }) {
       <button onClick={handleSearch}>Search</button>
       {isLoading && <p>Loading...</p>}
       {notFound && <p>No auctions found for: {searchTerm}</p>}
-      {searchResults.length > 0 && <SearchResults results={searchResults} />}
+      {searchResult && <SearchResults result={searchResult} />}
     </div>
   );
 }
