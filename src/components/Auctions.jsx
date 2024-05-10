@@ -14,8 +14,8 @@ const Auctions = ({ searchTerm }) => {
       try {
         const response = await fetch(
           searchTerm
-            ? `https://auctioneer2.azurewebsites.net/auction/p7u?search=${encodeURIComponent(searchTerm)}`
-            : "https://auctioneer2.azurewebsites.net/auction/p7u"
+            ? `https://auctioneer.up.railway.app/auction/p7u?search=${encodeURIComponent(searchTerm)}`
+            : "https://auctioneer.up.railway.app/auction/p7u"
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');

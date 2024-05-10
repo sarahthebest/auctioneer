@@ -20,13 +20,8 @@ import BidBtn from "./BidBtn";
 const AuctionPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const AuctionId = location.state?.AuctionId;
-  const AuctionTitle = location.state?.AuctionTitle;
-  const AuctionDesc = location.state?.AuctionDesc;
-  const AuctionBid = location.state?.AuctionBid;
-  const EndDate = location.state?.EndDate;
+  const { AuctionId, AuctionTitle, AuctionDesc, AuctionBid, EndDate } = location.state || {};
 
-  const [createdBy, setCreatedBy] = useState(location.state?.CreatedBy || "");
   const [bids, setBids] = useState([]);
   const [auctionBid, setAuctionBid] = useState(AuctionBid);
   const [amount, setAmount] = useState("");
@@ -35,14 +30,19 @@ const AuctionPage = () => {
 
   useEffect(() => {
     const fetchBids = async () => {
-      const response = await fetch(
-        `https://auctioneer2.azurewebsites.net/bid/p7u/${AuctionId}`
-      );
-      const data = await response.json();
-      setBids(data);
-
-      if (data.length > 0) {
-        setAuctionBid(data[data.length - 1].Amount);
+      try {
+        const response = await fetch(`https://auctioneer.up.railway.app/bid/p7u/${AuctionId}`);
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setBids(data);
+          if (data.length > 0) {
+            setAuctionBid(data[data.length - 1].Amount);
+          }
+        } else {
+          console.error('Expected an array of bids, but received:', data);
+        }
+      } catch (error) {
+        console.error('Error fetching bids:', error);
       }
     };
 
@@ -55,9 +55,7 @@ const AuctionPage = () => {
 
       if (timeLeft > 0) {
         const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-          (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
         setCountdown(`${days}d ${hours}h ${minutes}m ${seconds}s`);
@@ -81,7 +79,7 @@ const AuctionPage = () => {
   const deleteAuction = async () => {
     try {
       const response = await fetch(
-        `https://auctioneer2.azurewebsites.net/auction/p7u/${AuctionId}`,
+        `https://auctioneer.up.railway.app/auction/p7u/${AuctionId}`,
         {
           method: "DELETE",
           headers: {
@@ -108,10 +106,7 @@ const AuctionPage = () => {
   return (
     <Box sx={{ py: 4, bgcolor: "background.default", minHeight: 680 }}>
       <Container sx={{ display: "flex", flexDirection: "column", p: 0 }}>
-        <Link
-          to="/auktioner"
-          style={{ marginBottom: "15px", fontSize: "16px" }}
-        >
+        <Link to="/auktioner" style={{ marginBottom: "15px", fontSize: "16px" }}>
           Tillbaka till auktioner
         </Link>
         <Typography variant="h2" sx={{ fontSize: "24px" }}>
@@ -121,21 +116,9 @@ const AuctionPage = () => {
         <Typography sx={{ pt: 1, color: "red" }}>{countdown}</Typography>
       </Container>
 
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          mt: 2,
-          gap: 2,
-          p: 0,
-          width: "100%",
-        }}
-      >
+      <Container sx={{ display: "flex", flexDirection: "row", mt: 2, gap: 2, p: 0, width: "100%" }}>
         <Stack direction="column" gap={2}>
-          <TableContainer
-            component={Paper}
-            sx={{ width: 500, height: "fit-content" }}
-          >
+          <TableContainer component={Paper} sx={{ width: 500, height: "fit-content" }}>
             <Table aria-label="Budhistorik">
               <TableHead>
                 <TableRow>
@@ -145,7 +128,7 @@ const AuctionPage = () => {
               </TableHead>
               <TableBody>
                 {bids.map((bid, index) => (
-                  <TableRow key={bid.id || index}>
+                  <TableRow key={index}>
                     <TableCell align="left">{bid.Amount} kr</TableCell>
                     <TableCell align="right">{bid.Bidder}</TableCell>
                   </TableRow>
@@ -156,16 +139,7 @@ const AuctionPage = () => {
         </Stack>
 
         <Container>
-          <Stack
-            direction="row"
-            sx={{
-              bgcolor: "lightGrey",
-              height: 80,
-              pt: 2,
-              borderRadius: 2,
-              width: 410,
-            }}
-          >
+          <Stack direction="row" sx={{ bgcolor: "lightGrey", height: 80, pt: 2, borderRadius: 2, width: 410 }}>
             <Container>
               <Typography>Högsta bud:</Typography>
               <Typography variant="h5" sx={{ color: "green" }}>
@@ -179,20 +153,9 @@ const AuctionPage = () => {
           </Stack>
 
           <Stack direction="column" gap={2} sx={{ mt: 2 }}>
-            <Box
-              component="form"
-              sx={{ display: "flex", flexDirection: "column", gap: 1 }}
-            >
-              <TextField
-                label="Bud"
-                value={amount}
-                onChange={handleAmountChange}
-              />
-              <TextField
-                label="Namn"
-                value={name}
-                onChange={handleNameChange}
-              />
+            <Box component="form" sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              <TextField label="Bud" value={amount} onChange={handleAmountChange} />
+              <TextField label="Namn" value={name} onChange={handleNameChange} />
             </Box>
             <BidBtn
               AuctionId={AuctionId}
@@ -217,3 +180,5 @@ const AuctionPage = () => {
 };
 
 export default AuctionPage;
+
+

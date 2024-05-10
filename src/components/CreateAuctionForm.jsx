@@ -20,7 +20,7 @@ const CreateAuctionForm = ({ addAuction }) => {
         CreatedBy: 'Grupp 7'
       };
 
-      await fetch('https://auctioneer2.azurewebsites.net/auction/p7u', {
+      await fetch('https://auctioneer.up.railway.app/auction/p7u', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ const ParentComponent = () => {
 
   const deleteAuction = async (auction) => {
     try {
-      await fetch(`https://auctioneer2.azurewebsites.net/auction/p7u/${auction.AuctionID}`, {
+      await fetch(`https://auctioneer.up.railway.app/auction/p7u/${auction.AuctionID}`, {
         method: 'DELETE',
         body: JSON.stringify({
           GroupCode: 'p7u',

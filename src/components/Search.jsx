@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SearchResults from "./SearchResults";
 
-const URL = "https://auctioneer2.azurewebsites.net/auction/p7u";
+const URL = "https://auctioneer.up.railway.app/auction/p7u";
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
