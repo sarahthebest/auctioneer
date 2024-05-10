@@ -14,15 +14,20 @@ const Auctions = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch(
-          `https://auctioneer.up.railway.app/auction/p7u?search=${encodeURIComponent(searchTerm)}`
-        );
+        const response = await fetch(`https://auctioneer.up.railway.app/auction/p7u`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
         const now = new Date();
-        const activeAuctions = data.filter(auction => new Date(auction.EndDate) > now);
+    
+  
+        const filteredData = data.filter(auction => 
+          auction.Title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+          auction.Description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    
+        const activeAuctions = filteredData.filter(auction => new Date(auction.EndDate) > now);
         setAuctions(activeAuctions);
       } catch (error) {
         setError("Failed to fetch auctions: " + error.message);
@@ -30,6 +35,8 @@ const Auctions = () => {
         setIsLoading(false);
       }
     };
+    
+    
 
     fetchAuctions();
   }, [searchTerm]);
