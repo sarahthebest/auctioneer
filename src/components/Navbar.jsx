@@ -5,18 +5,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import CreateAuctionForm from './CreateAuctionForm';
 import '../styling/Navbar.css';
 
+
 function Navbar() {
-  const [searchQuery, setSearchQuery] = useState('');
   const [showCreateAuctionForm, setShowCreateAuctionForm] = useState(false);
-  const navigate = useNavigate();
-
-  const handleSearch = (event) => {
-    event.preventDefault(); 
-    if (searchQuery.trim()) {
-      navigate(`/search?query=${encodeURIComponent(searchQuery)}`); 
-    }
-  };
-
+  
   const toggleCreateAuctionForm = () => {
     setShowCreateAuctionForm(!showCreateAuctionForm);
   };
@@ -36,18 +28,6 @@ function Navbar() {
         <Button color="inherit" onClick={toggleCreateAuctionForm} sx={{ color: 'inherit' }}>
           Skapa Auktioner
         </Button>
-        <Box component="form" onSubmit={handleSearch} sx={{ position: 'relative', marginLeft: '10px', backgroundColor: 'rgba(0, 0, 0, 0.1)', borderRadius: '4px' }}>
-          <InputBase
-            sx={{ marginLeft: '8px', flex: 1 }}
-            placeholder="Sök…"
-            inputProps={{ 'aria-label': 'search' }}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <IconButton type="submit" sx={{ padding: '10px', color: 'inherit' }} aria-label="search">
-            <SearchIcon />
-          </IconButton>
-        </Box>
       </Toolbar>
       {showCreateAuctionForm && <CreateAuctionForm />}
     </AppBar>
@@ -55,7 +35,6 @@ function Navbar() {
 }
 
 export default Navbar;
-
 
 
 

@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import AuctionCard from "./AuctionCard";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, TextField, IconButton } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 
-const Auctions = ({ searchTerm }) => {
+const Auctions = () => {
   const [auctions, setAuctions] = useState([]);
-  const [error, setError] = useState(null); 
-  const [isLoading, setIsLoading] = useState(false); 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchAuctions = async () => {
@@ -13,9 +15,7 @@ const Auctions = ({ searchTerm }) => {
       setError(null);
       try {
         const response = await fetch(
-          searchTerm
-            ? `https://auctioneer.up.railway.app/auction/p7u?search=${encodeURIComponent(searchTerm)}`
-            : "https://auctioneer.up.railway.app/auction/p7u"
+          `https://auctioneer.up.railway.app/auction/p7u?search=${encodeURIComponent(searchTerm)}`
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -36,12 +36,22 @@ const Auctions = ({ searchTerm }) => {
 
   return (
     <Box sx={{ p: 2, minHeight: 680 }}>
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        Current Auctions
-      </Typography>
-      {error && (
-        <Typography color="error">{error}</Typography>
-      )}
+      <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
+        <Typography variant="h4" sx={{ flexGrow: 1 }}>
+          Current Auctions
+        </Typography>
+        <TextField
+          size="small"
+          placeholder="Search auctions..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{ marginRight: 1 }}
+        />
+        <IconButton onClick={() => fetchAuctions()}>
+          <SearchIcon />
+        </IconButton>
+      </Box>
+      {error && <Typography color="error">{error}</Typography>}
       {isLoading ? (
         <Typography>Loading auctions...</Typography>
       ) : (
