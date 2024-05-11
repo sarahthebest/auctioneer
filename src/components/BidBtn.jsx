@@ -1,4 +1,3 @@
-
 import Button from "@mui/material/Button";
 import { useState } from "react";
 
@@ -8,6 +7,7 @@ export default function BidBtn({
   Bidder,
   auctionBid,
   setAuctionBid,
+  updateBids  
 }) {
   const [submittedAmount, setSubmittedAmount] = useState(null);
 
@@ -28,7 +28,10 @@ export default function BidBtn({
       }
     );
     const data = await response.json();
-    setAuctionBid(Amount);
+    if (data.success) {
+      setAuctionBid(Amount);
+      updateBids();  // Uppdatera listan av bud
+    }
   };
 
   const handleClick = async () => {
