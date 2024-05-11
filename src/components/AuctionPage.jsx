@@ -1,48 +1,77 @@
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
-  Stack,
-  Typography,
+  TableContainer,
+  Paper,
   Table,
   TableBody,
   TableCell,
-  Paper,
+  TableHead,
+  TableRow,
+  Stack,
+  Typography,
+  TextField,
+  Button,
 } from "@mui/material";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import BidBtn from "./BidBtn";
-import { TextField, Button } from "@mui/material";
-import { useLocation, useNavigate, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 const AuctionPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const AuctionId = location.state?.AuctionId;
-  const AuctionTitle = location.state?.AuctionTitle;
-  const AuctionBid = location.state?.AuctionBid;
-  const AuctionDesc = location.state?.AuctionDesc;
-  const EndDate = location.state?.EndDate;
-  const [createdBy, setCreatedBy] = useState('')
+  const { AuctionId, AuctionTitle, AuctionDesc, AuctionBid, EndDate } =
+    location.state || {};
 
-  const [bids, setBids] = useState([AuctionBid]);
+  const [bids, setBids] = useState([]);
   const [auctionBid, setAuctionBid] = useState(AuctionBid);
   const [amount, setAmount] = useState("");
   const [name, setName] = useState("");
+  const [countdown, setCountdown] = useState("");
 
   useEffect(() => {
-    const fetchBids = async () => {
+    fetchBids();
+    const intervalId = setInterval(() => {
+      updateCountdown();
+      return () => clearInterval(intervalId);
+    }, 1000);
+  }, [AuctionId, EndDate]);
+
+  const fetchBids = async () => {
+    try {
       const response = await fetch(
-        "https://auctioneer.up.railway.app/bid/p7u/" + AuctionId
+        `https://auctioneer.up.railway.app/bid/p7u/${AuctionId}`
       );
       const data = await response.json();
-      setBids(data);
-      setAuctionBid(data[data.length - 1].Amount);
-    };
+      if (Array.isArray(data)) {
+        setBids(data);
+        if (data.length > 0) {
+          setAuctionBid(data[data.length - 1].Amount);
+        }
+      } else {
+        console.error("Expected an array of bids, but received:", data);
+      }
+    } catch (error) {
+      console.error("Error fetching bids:", error);
+    }
+  };
 
-    fetchBids();
-  }, [auctionBid]);
+  const updateCountdown = () => {
+    const now = new Date();
+    const endDate = new Date(EndDate);
+    const timeLeft = endDate - now;
+    if (timeLeft > 0) {
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      setCountdown(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+    } else {
+      setCountdown("Auktionen är över");
+    }
+  };
 
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
@@ -54,66 +83,47 @@ const AuctionPage = () => {
 
   const deleteAuction = async () => {
     try {
-      const response = await fetch(`https://auctioneer.up.railway.app/auction/p7u/${AuctionId}`, {
-        method: 'DELETE',
-        body: JSON.stringify({
-          GroupCode: 'p7u',
-          AuctionID: AuctionId
-        })
-      });
+      const response = await fetch(
+        `https://auctioneer.up.railway.app/auction/p7u/${AuctionId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            GroupCode: "p7u",
+            AuctionID: AuctionId,
+          }),
+        }
+      );
+
       if (response.ok) {
-        alert('Auktion borttagen!')
-        navigate('/auktioner')
+        alert("Auktionen borttagen!");
+        navigate("/auktioner");
       } else {
-        alert('Något gick fel, försök igen!')
+        alert("Något gick fel, försök igen!");
       }
     } catch (error) {
-      console.error('Fel uppstod:', error);
+      console.error("Fel uppstod:", error);
     }
   };
 
-  const date = new Date (EndDate)
-
   return (
-    <Box
-      sx={{
-        py: 4,
-        bgcolor: "",
-        minHeight: 680,
-      }}
-    >
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          height: 100,
-          width: "100%",
-          p: 0,
-        }}
-      >
+    <Box sx={{ py: 4, bgcolor: "background.default", minHeight: 680 }}>
+      <Container sx={{ display: "flex", flexDirection: "column", p: 0 }}>
         <Link
-          style={{
-            alignItems: "center",
-            marginBottom: 15,
-            fontSize: 16,
-          }}
           to="/auktioner"
+          style={{ marginBottom: "15px", fontSize: "16px" }}
         >
           Tillbaka till auktioner
         </Link>
-        <Box
-          width="100%"
-          display="flex"
-          flexDirection="Column"
-          alignItems="start"
-        >
-          <Typography sx= {{fontSize: 10}}>Skapad av: {location.state?.CreatedBy}</Typography>
-          <Typography variant="h2" sx={{ fontSize: 24 }}>
-            {AuctionTitle}
-          </Typography>
-          <Typography sx={{ pt: 1 }}>{AuctionDesc}</Typography>
-        </Box>
+        <Typography variant="h2" sx={{ fontSize: "24px" }}>
+          {AuctionTitle}
+        </Typography>
+        <Typography sx={{ pt: 1 }}>{AuctionDesc}</Typography>
+        <Typography sx={{ pt: 1, color: "red" }}>{countdown}</Typography>
       </Container>
+
       <Container
         sx={{
           display: "flex",
@@ -129,24 +139,25 @@ const AuctionPage = () => {
             component={Paper}
             sx={{ width: 500, height: "fit-content" }}
           >
-            <Table aria-label="simple table">
+            <Table aria-label="Budhistorik">
               <TableHead>
                 <TableRow>
                   <TableCell>Bud</TableCell>
                   <TableCell align="right">Namn</TableCell>
                 </TableRow>
               </TableHead>
-              {bids && bids.map((bid) => (
-                <TableBody>
-                  <TableRow>
-                    <TableCell align="left"> {bid.Amount} kr </TableCell>
+              <TableBody>
+                {bids.map((bid, index) => (
+                  <TableRow key={index}>
+                    <TableCell align="left">{bid.Amount} kr</TableCell>
                     <TableCell align="right">{bid.Bidder}</TableCell>
                   </TableRow>
-                </TableBody>
-              ))}
+                ))}
+              </TableBody>
             </Table>
           </TableContainer>
         </Stack>
+
         <Container>
           <Stack
             direction="row"
@@ -158,64 +169,46 @@ const AuctionPage = () => {
               width: 410,
             }}
           >
-            <Container sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography>Högsta Bud:</Typography>
-              <div className="bid-info">
-                <span
-                  className="highest-bid"
-                  style={{ fontSize: 20, color: "green" }}
-                >
-                  {auctionBid} kr
-                </span>
-              </div>
+            <Container>
+              <Typography>Högsta bud:</Typography>
+              <Typography variant="h5" sx={{ color: "green" }}>
+                {auctionBid} kr
+              </Typography>
             </Container>
-            <Container sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography>Avslutas om: <br></br>
-                {
-                   (date.getFullYear()) +  "-" +
-                   (date.getMonth() + 1 < 10 ? "0" +(date.getMonth() + 1) : date.getMonth() + 1) +"-" + 
-                   (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " " + " "+
-                   (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":" +
-                   (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) + ":" +
-                   (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds())
-                    
-                    }
-                </Typography>
+            <Container>
+              <Typography>Avslutas om:</Typography>
+              <Typography variant="body2">{countdown}</Typography>
             </Container>
           </Stack>
+
           <Stack direction="column" gap={2} sx={{ mt: 2 }}>
             <Box
               component="form"
-              display="flex"
-              flexDirection="column"
-              sx={{
-                gap: 1,
-                width: 410,
-              }}
-              noValidate
-              autoComplete="off"
+              sx={{ display: "flex", flexDirection: "column", gap: 1 }}
             >
               <TextField
-                id="outlined-basic"
                 label="Bud"
-                variant="outlined"
                 value={amount}
                 onChange={handleAmountChange}
               />
               <TextField
-                id="outlined-basic"
                 label="Namn"
-                variant="outlined"
                 value={name}
                 onChange={handleNameChange}
               />
             </Box>
-            <BidBtn AuctionId={AuctionId} Amount={amount} Bidder={name} GroupCode='p7u' auctionBid={auctionBid} setAuctionBid={setAuctionBid} />
+            <BidBtn
+              AuctionId={AuctionId}
+              Amount={amount}
+              Bidder={name}
+              auctionBid={auctionBid}
+              setAuctionBid={setAuctionBid}
+            />
             <Button
-              style={{ width: '70%' }}
-              color="secondary"
               variant="contained"
-              onClick={() => deleteAuction()}
+              color="secondary"
+              sx={{ width: "70%" }}
+              onClick={deleteAuction}
             >
               Ta bort
             </Button>
