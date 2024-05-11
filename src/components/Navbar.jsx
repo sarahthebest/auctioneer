@@ -3,39 +3,36 @@ import { AppBar, Toolbar, Typography, Button} from '@mui/material';
 import { Link } from 'react-router-dom';
 import CreateAuctionForm from './CreateAuctionForm'; 
 import '../styling/Navbar.css';
-import Search from './Search';
 
+// Navbar-komponenten hanterar navigering och formulär för att skapa auktioner
 function Navbar() {
-  const [visaCreateAuctionForm, setVisaCreateAuctionForm] = useState(false);
+  const [showCreateAuctionForm, setShowCreateAuctionForm] = useState(false); 
 
-  const hanteraSkapaAuktionKlick = () => {
-    setVisaCreateAuctionForm(!visaCreateAuctionForm);
-  };
-
-  const handleSearch = (term) => {
-    setSearchTerm(term);
+// Funktion för att växla synligheten av formuläret för att skapa auktioner
+  const toggleCreateAuctionForm = () => {
+    setShowCreateAuctionForm(!showCreateAuctionForm);
   };
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" style={{ backgroundColor: '#d9c09e', color: '#333' }}>
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           Min Auktionsplats
         </Typography>
-        <Button color="inherit" component={Link} to="/">
+        <Button color="inherit" component={Link} to="/" sx={{ color: 'inherit' }}>
           Hem
         </Button>
-        <Button color="inherit" component={Link} to="/auktioner">
+        <Button color="inherit" component={Link} to="/auktioner" sx={{ color: 'inherit' }}>
           Auktioner
         </Button>
-        <Button color="inherit" onClick={hanteraSkapaAuktionKlick}>
+        <Button color="inherit" onClick={toggleCreateAuctionForm} sx={{ color: 'inherit' }}>
           Skapa Auktioner
         </Button>
-        <Search onSearch={handleSearch} />
       </Toolbar>
-      {visaCreateAuctionForm && <CreateAuctionForm />}
+      {showCreateAuctionForm && <CreateAuctionForm />}
     </AppBar>
   );
 }
 
 export default Navbar;
+
