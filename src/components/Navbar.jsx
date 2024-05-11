@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, InputBase, IconButton, Box } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
 import CreateAuctionForm from './CreateAuctionForm';
 import '../styling/Navbar.css';
 
 // Navbar-komponenten hanterar navigering och formulär för att skapa auktioner
 function Navbar() {
-  const [showCreateAuctionForm, setShowCreateAuctionForm] = useState(false); // Den kontrollerar visningen av skapa-auktion formuläret
+  const [showCreateAuctionForm, setShowCreateAuctionForm] = useState(false); 
 
 // Funktion för att växla synligheten av formuläret för att skapa auktioner
   const toggleCreateAuctionForm = () => {
