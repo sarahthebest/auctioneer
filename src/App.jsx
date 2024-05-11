@@ -6,27 +6,18 @@ import AuctionPage from "./components/AuctionPage";
 import Homepage from "./components/Homepage";
 import "./styling/index.css";
 import CreateAuctionForm from "./components/CreateAuctionForm"; 
-import SearchResults from "./components/SearchResults";
 
 function App() {
   return (
     <Router>
-      <>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/" element={<Homepage />} />
-          <Route path="/auktioner" element={<Auctions />} />
-          <Route path="/auctionpage" element={<AuctionPage />} />
-          <Route
-            path="/skapa-auktion"
-            element={<CreateAuctionForm groupCode="p7u" />}
-          />
-          <Route path="/searchresults" element={<SearchResults />} />
-
-        </Routes>
-        <Footer />
-      </>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/auktioner" element={<Auctions />} />
+        <Route path="/auctionpage" element={<AuctionPage />} />
+        <Route path="/skapa-auktion" element={<CreateAuctionForm groupCode="p7u" />} />
+      </Routes>
+      <Footer />
     </Router>
   );
 }
