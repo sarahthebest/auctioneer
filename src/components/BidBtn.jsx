@@ -7,12 +7,13 @@ export default function BidBtn({
   Bidder,
   auctionBid,
   setAuctionBid,
+  updateBids  
 }) {
   const [submittedAmount, setSubmittedAmount] = useState(null);
 
   const postBid = async (AuctionId, Amount, Bidder) => {
     const response = await fetch(
-      "https://auctioneer.up.railway.app/auction/p7u/",
+      "https://auctioneer.up.railway.app/bid/p7u/",
       {
         method: "POST",
         headers: {
@@ -27,7 +28,10 @@ export default function BidBtn({
       }
     );
     const data = await response.json();
-    setAuctionBid(Amount);
+    if (data.success) {
+      setAuctionBid(Amount);
+      updateBids();  // Uppdatera listan av bud
+    }
   };
 
   const handleClick = async () => {
@@ -37,7 +41,7 @@ export default function BidBtn({
 
   return (
     <>
-      {submittedAmount && submittedAmount < auctionBid && (
+      {submittedAmount && submittedAmount <= auctionBid && (
         <div className="errMsg">Du budar för lågt!</div>
       )}
       <Button

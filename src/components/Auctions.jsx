@@ -3,6 +3,7 @@ import AuctionCard from "./AuctionCard";
 import { Box, Grid, Typography, TextField, IconButton } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 
+// Huvudkomponent för att visa aktuella auktioner 
 const Auctions = () => {
   const [auctions, setAuctions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,22 +22,20 @@ const Auctions = () => {
         const data = await response.json();
         const now = new Date();
     
-  
+        // Filterar data baserat på sökbegrepp och aktiva datum
         const filteredData = data.filter(auction => 
           auction.Title.toLowerCase().includes(searchTerm.toLowerCase()) || 
           auction.Description.toLowerCase().includes(searchTerm.toLowerCase())
         );
     
         const activeAuctions = filteredData.filter(auction => new Date(auction.EndDate) > now);
-        setAuctions(activeAuctions);
+        setAuctions(activeAuctions); // Upptaderar auktioner som visas 
       } catch (error) {
         setError("Failed to fetch auctions: " + error.message);
       } finally {
         setIsLoading(false);
       }
     };
-    
-    
 
     fetchAuctions();
   }, [searchTerm]);

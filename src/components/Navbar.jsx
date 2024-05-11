@@ -5,10 +5,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import CreateAuctionForm from './CreateAuctionForm';
 import '../styling/Navbar.css';
 
-
+// Navbar-komponenten hanterar navigering och formulär för att skapa auktioner
 function Navbar() {
-  const [showCreateAuctionForm, setShowCreateAuctionForm] = useState(false);
-  
+  const [showCreateAuctionForm, setShowCreateAuctionForm] = useState(false); // Den kontrollerar visningen av skapa-auktion formuläret
+
+// Funktion för att växla synligheten av formuläret för att skapa auktioner
   const toggleCreateAuctionForm = () => {
     setShowCreateAuctionForm(!showCreateAuctionForm);
   };
